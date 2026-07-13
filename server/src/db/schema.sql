@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS users (
     email           TEXT NOT NULL UNIQUE,
     password_hash   TEXT NOT NULL,
     avatar_url      TEXT,
-    created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE TABLE IF NOT EXISTS boards (
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS columns (
     board_id        UUID NOT NULL REFERENCES boards(id) ON DELETE CASCADE,
     title           TEXT NOT NULL,
     position        DOUBLE PRECISION NOT NULL DEFAULT 1000,
-    created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE TABLE IF NOT EXISTS tasks (
