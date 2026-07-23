@@ -65,3 +65,5 @@ const me = asyncHandler(async (req, res) => {
     if (!rows.length) throw ApiError.notFound("User not found");
     res.json({ user: rows[0] });
 });
+
+module.exports = { register, login, me };
