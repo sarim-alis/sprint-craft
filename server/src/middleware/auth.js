@@ -15,3 +15,5 @@ const requireAuth = (req, _res, next) => {
         next(ApiError.unauthorized("Invalid or expired token"));
     }
 };
+
+module.exports = { requireAuth };
