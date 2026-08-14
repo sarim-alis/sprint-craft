@@ -50,3 +50,43 @@ const generateTasks = asyncHandler(async (req, res) => {
     
     res.status(201).json({ tasks: created, persisted: true });
 });
+
+const breakdownTask = asyncHandler(async (req, res) => {
+    let { title, description } = req.body;
+    const count = Math.min(Math.max(parseInt(req.body.count, 10) || 5, 1), 12);
+
+    if (req.body.taskId) {
+        const { rows } = await query(
+            "SELECT title, description FROM tasks WHERE id = $1 AND board_id = $2",
+            [req.body.taskId, req.board.id]
+        );
+        if (!rows.length) throw ApiError.notFound("Task not found");
+        title = rows[0].title;
+        description = rows[0].description;
+    }
+
+    if (!title) throw ApiError.badRequest("Task title is required");
+    const subTasks = await ai.breakdownTask(title, description, count);
+    res.json({ subTasks });
+});
+
+const summarizeBoard = asyncHandler(async (req, res) => {
+    const [boardRes, colsRes, tasksRes] = await Promise.all([
+        query("SELECT title FROM boards WHERE id = $1", [req.board.id]),
+        query("SELECT id, title FROM columns WHERE board_id = $1 ORDER BY position ASC", [req.board.id]),
+        query("SELECT column_id, title, priority FROM tasks WHERE board_id = $1", [req.board.id]),
+    ]);
+
+    const columns = colsRes.rows.map(c => ({
+        title: c.title,
+        tasks: tasksRes.rows.filter((t) => t.column_id === c.id),
+    }));
+
+    const summary = await ai.summarizeBoard({
+        boardTitle: boardRes.rows[0]?.title || "Untitled Board", 
+        columns,
+    });
+    res.json({ summary });
+});
+
+module.exports = { generateTasks, breakdownTask, summarizeBoard };
