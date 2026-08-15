@@ -29,3 +29,5 @@ const logActivity = async ({ boardId, userId, action, message, metadata }) => {
     emitToBoard(boardId, "activity:new", activity);
     return activity;
 };
+
+module.exports = { setIo, boardRoom, emitToBoard, logActivity };
