@@ -19,7 +19,7 @@ const generateTasks = asyncHandler(async (req, res) => {
         req.body.column_id,
         req.board.id
     ]);
-    if (!colRes.row.length) throw ApiError.badRequest("column_id does not belong to this board");
+    if (!colRes.rows.length) throw ApiError.badRequest("column_id does not belong to this board");
 
     const baseRes = await query(
         "SELECT COALESCE(MAX(position), 0) AS pos FROM tasks WHERE column_id = $1",

@@ -68,7 +68,7 @@ const createTask = asyncHandler(async (req, res) => {
     await ensureColumnInBoard(column_id, req.board.id);
 
     const posRes = await query(
-        "SELECT COALESCE(MAX(position), 0 + 1000 AS pos FROM tasks WHERE column_id = $1",
+        "SELECT COALESCE(MAX(position), 0) + 1000 AS pos FROM tasks WHERE column_id = $1",
         [column_id]
     );
 

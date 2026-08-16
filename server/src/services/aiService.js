@@ -1,7 +1,7 @@
 const { GoogleGenAI } = require("@google/genai");
 const ApiError = require("../utils/ApiError");
 
-const MODEL = process.env.GEMINI_MODEL || "gemini-2.0-flash";
+const MODEL = process.env.GEMINI_MODEL || "gemini-3.6-flash";
 
 let client = null;
 const getClient = () => {
@@ -41,6 +41,9 @@ const runPrompt = async (prompt) => {
         const status = err.status || err.statusCode;
         if (status === 429) {
             throw new ApiError(429, "AI quote exceed.");
+        }
+        if (status === 404) {
+            throw new ApiError(502, `AI model "${MODEL}" is not available`);
         }
         if (status === 400 || status === 401 || status === 403) {
             throw new ApiError(503, "AI request rejected");
