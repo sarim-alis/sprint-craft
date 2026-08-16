@@ -9,9 +9,9 @@ import { cn } from "../../lib/utils";
 // Section eyebrow (hidden when collapsed)
 const SectionLabel = ({ children, collapsed }) =>
   collapsed ? (
-    <div className="mx-auto my-2 h-px w-6 bg-line" />
+    <div className="mx-auto my-1.5 h-px w-6 bg-line" />
   ) : (
-    <p className="px-4 pb-1.5 pt-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-faint">
+    <p className="px-3.5 pb-1 pt-2.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-faint">
       {children}
     </p>
   );
@@ -23,8 +23,8 @@ const NavItem = ({ to, icon: Icon, label, collapsed, badge }) => (
     title={collapsed ? label : undefined}
     className={({ isActive }) =>
       cn(
-        "group relative flex h-11 items-center rounded-2xl text-sm font-medium transition-colors duration-200",
-        collapsed ? "mx-auto w-11 justify-center" : "gap-3 px-3",
+        "group relative flex h-9 items-center rounded-xl text-sm font-medium transition-colors duration-200",
+        collapsed ? "mx-auto w-9 justify-center" : "gap-2.5 px-2.5",
         isActive
           ? "bg-brand-50 font-semibold text-brand-700"
           : "text-muted hover:bg-surface-2 hover:text-ink"
@@ -59,8 +59,8 @@ const Sidebar = ({ collapsed, onToggle, onCreateBoard }) => {
       )}
     >
       {/* Header */}
-      <div className="flex h-16 shrink-0 items-center gap-2.5 px-3.5">
-        <div className="brand-gradient grid h-10 w-10 shrink-0 place-items-center rounded-2xl shadow-[var(--shadow-brand)]">
+      <div className="flex h-14 shrink-0 items-center gap-2 px-3">
+        <div className="brand-gradient grid h-9 w-9 shrink-0 place-items-center rounded-xl shadow-[var(--shadow-brand)]">
           <Zap className="h-5 w-5 fill-white text-white" />
         </div>
         {!collapsed && (
@@ -94,7 +94,7 @@ const Sidebar = ({ collapsed, onToggle, onCreateBoard }) => {
       {/* Menu */}
       <div className="shrink-0">
         <SectionLabel collapsed={collapsed}>Menu</SectionLabel>
-        <nav className="space-y-1 px-3">
+        <nav className="space-y-0.5 px-2.5">
           <NavItem to="/dashboard" icon={LayoutDashboard} label="Dashboard" collapsed={collapsed} />
           <NavItem to="/my-tasks" icon={CheckSquare} label="My Tasks" collapsed={collapsed} />
           <NavItem to="/calendar" icon={Calendar} label="Calendar" collapsed={collapsed} />
@@ -102,8 +102,8 @@ const Sidebar = ({ collapsed, onToggle, onCreateBoard }) => {
         </nav>
       </div>
 
-      {/* Boards heading stays put; only the list below scrolls */}
-      <div className={cn("mt-2 flex h-7 shrink-0 items-center", collapsed ? "justify-center" : "justify-between px-4")}>
+      {/* Boards heading stays put; list below fills leftover height */}
+      <div className={cn("mt-1.5 flex h-7 shrink-0 items-center", collapsed ? "justify-center" : "justify-between px-3.5")}>
         {!collapsed && (
           <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-faint">Boards</span>
         )}
@@ -116,10 +116,10 @@ const Sidebar = ({ collapsed, onToggle, onCreateBoard }) => {
         </button>
       </div>
 
-      <div className="mt-1 max-h-[15.625rem] min-h-0 space-y-0.5 overflow-y-auto overflow-x-hidden px-2.5 pb-1 [scrollbar-width:thin]">
+      <div className="mt-0.5 min-h-0 flex-1 space-y-0.5 overflow-y-auto overflow-x-hidden px-2.5 [scrollbar-width:thin]">
         {loading ? (
-          Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className={cn("flex h-10 items-center gap-3", collapsed ? "justify-center" : "px-1")}>
+          Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className={cn("flex h-9 items-center gap-2.5", collapsed ? "justify-center" : "px-1")}>
               <div className="skeleton h-7 w-7 shrink-0 rounded-lg" />
               {!collapsed && <div className="skeleton h-3 flex-1 rounded" />}
             </div>
@@ -136,8 +136,8 @@ const Sidebar = ({ collapsed, onToggle, onCreateBoard }) => {
                 title={b.title}
                 className={({ isActive }) =>
                   cn(
-                    "flex h-10 items-center rounded-2xl text-sm transition-colors duration-200",
-                    collapsed ? "mx-auto w-10 justify-center" : "gap-3 px-2",
+                    "flex h-9 items-center rounded-xl text-sm transition-colors duration-200",
+                    collapsed ? "mx-auto w-9 justify-center" : "gap-2.5 px-2",
                     isActive ? "bg-brand-50 font-medium text-brand-700" : "text-muted hover:bg-surface-2 hover:text-ink"
                   )
                 }
@@ -158,19 +158,18 @@ const Sidebar = ({ collapsed, onToggle, onCreateBoard }) => {
         )}
       </div>
 
-      {/* Promo pinned at the bottom */}
       {!collapsed && (
-        <div className="mt-auto shrink-0 px-3 pb-4 pt-3">
+        <div className="shrink-0 px-2.5 pb-3 pt-2">
           <button
             onClick={onCreateBoard}
-            className="brand-gradient relative w-full overflow-hidden rounded-2xl p-4 text-left text-white shadow-[var(--shadow-brand)]"
+            className="brand-gradient relative w-full overflow-hidden rounded-2xl p-3 text-left text-white shadow-[var(--shadow-brand)]"
           >
             <div className="absolute -right-6 -top-8 h-20 w-20 rounded-full bg-white/15 blur-xl" />
-            <span className="relative grid h-9 w-9 place-items-center rounded-xl bg-white/20 backdrop-blur">
-              <Sparkles className="h-4 w-4" />
+            <span className="relative grid h-8 w-8 place-items-center rounded-lg bg-white/20 backdrop-blur">
+              <Sparkles className="h-3.5 w-3.5" />
             </span>
-            <p className="relative mt-3 font-display text-sm font-semibold tracking-tight">Plan with AI</p>
-            <p className="relative mt-0.5 text-[11px] leading-relaxed text-white/80">
+            <p className="relative mt-2 font-display text-sm font-semibold tracking-tight">Plan with AI</p>
+            <p className="relative mt-0.5 text-[11px] leading-snug text-white/80">
               Turn a goal into a backlog in seconds.
             </p>
           </button>
