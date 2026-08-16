@@ -79,6 +79,7 @@ export const aiApi = {
   generateTasks: (boardId, data) =>
     api.post(`/boards/${boardId}/ai/generate-tasks`, data).then((r) => r.data),
   breakdown: (boardId, data) =>
-    api.post(`/boards/${boardId}/ai/breakdown`, data).then((r) => r.data.subtasks),
-  summary: (boardId) => api.post(`/boards/${boardId}/ai/summary`).then((r) => r.data.summary),
+    api.post(`/boards/${boardId}/ai/breakdown-task`, data).then((r) => r.data.subTasks),
+  summary: (boardId) =>
+    api.post(`/boards/${boardId}/ai/summarize`).then((r) => r.data.summary),
 };
