@@ -319,7 +319,7 @@ const TasksByBoard = ({ boards, className }) => {
                   <div className="relative flex w-full max-w-[44px] flex-1 items-end justify-center">
                     {count > 0 ? (
                       <>
-                        <span className="absolute left-1/2 top-0 z-10 -translate-x-1/2 -translate-y-1 rounded-full bg-ink px-2 py-0.5 text-[10px] font-semibold tabular text-white opacity-0 shadow-[var(--shadow-soft)] transition-opacity duration-200 group-hover:opacity-100">
+                        <span className="absolute left-1/2 top-0 z-10 -translate-x-1/2 -translate-y-1 rounded-full bg-ink px-2 py-0.5 text-[10px] font-semibold tabular text-bg opacity-0 shadow-[var(--shadow-soft)] transition-opacity duration-200 group-hover:opacity-100">
                           {count}
                         </span>
                         <motion.div
@@ -664,7 +664,7 @@ const AIPromo = ({ onCreate, className }) => (
     </div>
     <button
       onClick={onCreate}
-      className="relative mt-6 inline-flex h-11 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-brand-700 shadow-[var(--shadow-card)] transition-transform duration-200 active:scale-[0.97]"
+      className="relative mt-6 inline-flex h-11 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-brand-ink shadow-[var(--shadow-card)] transition-transform duration-200 active:scale-[0.97]"
     >
       <Plus className="h-4 w-4" /> New board
     </button>

@@ -62,7 +62,7 @@ const AISpotlight = () => (
             ))}
           </ul>
           <Link to="/register" className="mt-8 inline-block">
-            <button className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-brand-700 shadow-[var(--shadow-card)] transition-transform duration-200 hover:scale-[1.02] active:scale-[0.97]">
+            <button className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-brand-ink shadow-[var(--shadow-card)] transition-transform duration-200 hover:scale-[1.02] active:scale-[0.97]">
               Try it free <ArrowRight className="h-4 w-4" />
             </button>
           </Link>
@@ -76,7 +76,7 @@ const AISpotlight = () => (
               <span className="flex-1 truncate text-sm text-white/90">
                 Build an e-commerce checkout flow
               </span>
-              <span className="shrink-0 rounded-lg bg-white px-2.5 py-1 text-xs font-semibold text-brand-700">
+              <span className="shrink-0 rounded-lg bg-white px-2.5 py-1 text-xs font-semibold text-brand-ink">
                 Generate
               </span>
             </div>

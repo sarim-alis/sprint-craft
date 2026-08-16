@@ -73,7 +73,7 @@ const CommandMenu = ({ open, onClose, onCreateBoard }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          <div className="fixed inset-0 bg-ink/35 backdrop-blur-sm" onClick={onClose} />
+          <div className="fixed inset-0 bg-overlay backdrop-blur-sm" onClick={onClose} />
           <motion.div
             className="card relative z-10 w-full max-w-xl overflow-hidden rounded-3xl shadow-[var(--shadow-lift)]"
             initial={{ opacity: 0, scale: 0.98, y: -8 }}

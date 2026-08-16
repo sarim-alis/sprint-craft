@@ -33,7 +33,7 @@ const ActivityFeed = ({ open, onClose, boardId }) => {
       {open && (
         <>
           <motion.div
-            className="fixed inset-0 z-30 bg-ink/35 backdrop-blur-sm"
+            className="fixed inset-0 z-30 bg-overlay backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

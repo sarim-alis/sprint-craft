@@ -6,6 +6,7 @@ import { useAuth } from "../context/AuthContext";
 import { Input } from "../components/ui/Input";
 import Button from "../components/ui/Button";
 import AuthAside from "../components/auth/AuthAside";
+import ThemeToggle from "../components/ui/ThemeToggle";
 
 const Register = () => {
   const { register } = useAuth();
@@ -30,7 +31,8 @@ const Register = () => {
 
   return (
     <div className="flex min-h-screen">
-      <div className="flex w-full items-center justify-center px-4 py-10 lg:w-1/2">
+      <div className="relative flex w-full items-center justify-center px-4 py-10 lg:w-1/2">
+        <ThemeToggle className="absolute right-4 top-4 lg:right-8 lg:top-8" />
         <div className="w-full max-w-sm animate-in">
         <Link to="/" className="mb-8 flex items-center justify-center gap-2.5 font-semibold">
           <div className="brand-gradient flex h-10 w-10 items-center justify-center rounded-2xl shadow-[var(--shadow-brand)]">

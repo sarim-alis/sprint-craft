@@ -2,9 +2,27 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/ufo.png" />
+    <link rel="apple-touch-icon" href="/ufo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Spacecraft</title>
+    <script>
+      (function () {
+        try {
+          var pref = localStorage.getItem("pref-theme") || "dark";
+          var dark =
+            pref === "dark" ||
+            (pref !== "light" &&
+              window.matchMedia("(prefers-color-scheme: dark)").matches);
+          document.documentElement.dataset.theme = dark ? "dark" : "light";
+          document.documentElement.style.colorScheme = dark ? "dark" : "light";
+        } catch (e) {}
+      })();
+    </script>
+    <style>
+      html { background: #0e1210; color-scheme: dark; }
+      html[data-theme="light"] { background: #fff; color-scheme: light; }
+    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

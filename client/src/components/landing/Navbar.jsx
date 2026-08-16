@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Zap } from "lucide-react";
 import Button from "../ui/Button";
+import ThemeToggle from "../ui/ThemeToggle";
 
 const navLinks = [
   ["Features", "#features"],
@@ -46,6 +47,7 @@ const Navbar = () => {
           ))}
         </nav>
         <div className="flex items-center gap-2">
+          <ThemeToggle className="h-9 w-9" />
           <Link to="/login">
             <Button variant="ghost" size="sm">Log in</Button>
           </Link>

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LogOut, Command, Zap, FolderKanban, CheckSquare, Users } from "lucide-react";
+import { LogOut, Command, Zap, FolderKanban, CheckSquare, Users, Sun, Moon, Monitor } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 import { useLayout } from "../components/layout/AppLayout";
 import { useWorkspace } from "../hooks/useWorkspace";
 import Topbar from "../components/layout/Topbar";
@@ -37,8 +38,15 @@ const Card = ({ title, description, children }) => (
   </section>
 );
 
+const APPEARANCE = [
+  { id: "light", label: "Light", icon: Sun },
+  { id: "dark", label: "Dark", icon: Moon },
+  { id: "system", label: "System", icon: Monitor },
+];
+
 const Settings = () => {
   const { user, logout } = useAuth();
+  const { preference, resolved, setPreference } = useTheme();
   const { openCreateBoard } = useLayout();
   const { boards, tasks, members } = useWorkspace();
   const navigate = useNavigate();
@@ -80,7 +88,29 @@ const Settings = () => {
 
           {/* Preferences */}
           <Card title="Preferences" description="Saved to this browser.">
-            <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="text-sm font-medium text-ink">Appearance</p>
+              <p className="mt-0.5 text-xs text-muted">Light, dark, or match your operating system.</p>
+              <div className="mt-3 grid grid-cols-3 gap-2">
+                {APPEARANCE.map(({ id, label, icon: Icon }) => (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => setPreference(id)}
+                    className={cn(
+                      "flex flex-col items-center gap-2 rounded-2xl border px-3 py-3 text-xs font-semibold transition-colors",
+                      preference === id
+                        ? "border-brand-500 bg-brand-50 text-brand-700"
+                        : "border-line bg-surface-2/60 text-muted hover:text-ink"
+                    )}
+                  >
+                    <Icon className="h-4 w-4" />
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="mt-5 flex items-center justify-between gap-4 border-t pt-5">
               <div>
                 <p className="text-sm font-medium text-ink">Reduce motion</p>
                 <p className="mt-0.5 text-xs text-muted">Minimize animations and transitions across the app.</p>
@@ -106,7 +136,9 @@ const Settings = () => {
               </div>
               <div>
                 <p className="text-sm font-semibold text-ink">Spacecraft</p>
-                <p className="text-xs text-muted">AI-powered Kanban · Light theme</p>
+                <p className="text-xs text-muted">
+                  AI-powered Kanban · {resolved === "dark" ? "Dark" : "Light"} theme
+                </p>
               </div>
             </div>
           </Card>

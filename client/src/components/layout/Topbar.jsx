@@ -5,6 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useLayout } from "./AppLayout";
 import Avatar from "../ui/Avatar";
 import Button from "../ui/Button";
+import ThemeToggle from "../ui/ThemeToggle";
 
 const Topbar = ({ title, subtitle, actions, onCreateBoard }) => {
   const { user, logout } = useAuth();
@@ -40,6 +41,8 @@ const Topbar = ({ title, subtitle, actions, onCreateBoard }) => {
         </button>
 
         {actions}
+
+        <ThemeToggle className="max-sm:hidden" />
 
         <button
           className="hidden h-10 w-10 items-center justify-center rounded-full border border-line bg-surface text-muted shadow-[var(--shadow-card)] transition-all duration-200 hover:-translate-y-px hover:text-ink hover:shadow-[var(--shadow-soft)] sm:flex"

@@ -14,17 +14,19 @@ export const priorityMeta = (value) =>
   PRIORITIES.find((p) => p.value === value) || PRIORITIES[1];
 
 // Pastel accents assigned to columns by index (Linear/Notion-style boards).
-const COLUMN_ACCENTS = [
-  { dot: "#f43f5e", soft: "rgba(244, 63, 94, 0.06)", ring: "rgba(244, 63, 94, 0.22)" }, // rose
-  { dot: "#f59e0b", soft: "rgba(245, 158, 11, 0.07)", ring: "rgba(245, 158, 11, 0.24)" }, // amber
-  { dot: "#0ea5e9", soft: "rgba(14, 165, 233, 0.06)", ring: "rgba(14, 165, 233, 0.22)" }, // sky
-  { dot: "#8b5cf6", soft: "rgba(139, 92, 246, 0.06)", ring: "rgba(139, 92, 246, 0.22)" }, // violet
-  { dot: "#10b981", soft: "rgba(16, 185, 129, 0.06)", ring: "rgba(16, 185, 129, 0.22)" }, // emerald
-  { dot: "#ec4899", soft: "rgba(236, 72, 153, 0.06)", ring: "rgba(236, 72, 153, 0.22)" }, // pink
-];
+const COLUMN_ACCENTS = ["#f43f5e", "#f59e0b", "#0ea5e9", "#8b5cf6", "#10b981", "#ec4899"];
 
-export const columnAccent = (index = 0) =>
-  COLUMN_ACCENTS[((index % COLUMN_ACCENTS.length) + COLUMN_ACCENTS.length) % COLUMN_ACCENTS.length];
+export const columnAccent = (index = 0) => {
+  const dot =
+    COLUMN_ACCENTS[
+      ((index % COLUMN_ACCENTS.length) + COLUMN_ACCENTS.length) % COLUMN_ACCENTS.length
+    ];
+  return {
+    dot,
+    soft: `color-mix(in oklab, ${dot} 12%, var(--color-bg))`,
+    ring: `color-mix(in oklab, ${dot} 38%, transparent)`,
+  };
+};
 
 export const initials = (name = "") =>
   name

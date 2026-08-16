@@ -73,7 +73,7 @@ const Features = () => (
               <div className="flex items-center gap-2.5 rounded-xl border border-white/10 bg-white/10 px-3 py-2">
                 <Sparkles className="h-4 w-4 shrink-0 text-white/80" />
                 <span className="flex-1 truncate text-sm text-white/90">Launch a referral program</span>
-                <span className="shrink-0 rounded-lg bg-white px-2.5 py-1 text-xs font-semibold text-brand-700">Generate</span>
+                <span className="shrink-0 rounded-lg bg-white px-2.5 py-1 text-xs font-semibold text-brand-ink">Generate</span>
               </div>
               <div className="mt-3 space-y-2">
                 {genTasks.map(([title, color], i) => (

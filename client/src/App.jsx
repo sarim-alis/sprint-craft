@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthContext";
+import { ThemeProvider } from "./context/ThemeContext";
 import { ProtectedRoute, PublicOnlyRoute } from "./routes/ProtectedRoute";
 
 import Landing from "./pages/Landing";
@@ -17,8 +18,9 @@ import AppLayout from "./components/layout/AppLayout";
 
 const App = () => (
   <BrowserRouter>
-    <AuthProvider>
-      <Routes>
+    <ThemeProvider>
+      <AuthProvider>
+        <Routes>
         <Route path="/" element={<Landing />} />
         <Route
           path="/login"
@@ -54,24 +56,25 @@ const App = () => (
 
         <Route path="/404" element={<NotFound />} />
         <Route path="*" element={<Navigate to="/404" replace />} />
-      </Routes>
+        </Routes>
 
-      <Toaster
-        position="top-center"
-        toastOptions={{
-          style: {
-            background: "#ffffff",
-            color: "#16161d",
-            border: "1px solid #e9e8f3",
-            borderRadius: "999px",
-            padding: "0.6rem 1rem",
-            boxShadow: "0 8px 24px rgba(28,27,64,0.1)",
-            fontSize: "0.875rem",
-            fontWeight: 500,
-          },
-        }}
-      />
-    </AuthProvider>
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            style: {
+              background: "var(--color-surface)",
+              color: "var(--color-ink)",
+              border: "1px solid var(--color-line)",
+              borderRadius: "999px",
+              padding: "0.6rem 1rem",
+              boxShadow: "var(--shadow-soft)",
+              fontSize: "0.875rem",
+              fontWeight: 500,
+            },
+          }}
+        />
+      </AuthProvider>
+    </ThemeProvider>
   </BrowserRouter>
 );
 

@@ -22,7 +22,7 @@ const Modal = ({ open, onClose, title, description, children, footer, size = "md
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          <div className="fixed inset-0 bg-ink/35 backdrop-blur-sm" onClick={onClose} />
+          <div className="fixed inset-0 bg-overlay backdrop-blur-sm" onClick={onClose} />
           <motion.div
             className={cn(
               "card relative z-10 mt-8 w-full rounded-3xl p-6 shadow-[var(--shadow-lift)]",

@@ -114,7 +114,7 @@ const Hero = () => (
           </p>
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link to="/register">
-              <button className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-7 text-sm font-semibold text-brand-700 shadow-[var(--shadow-soft)] transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]">
+              <button className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-7 text-sm font-semibold text-brand-ink shadow-[var(--shadow-soft)] transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]">
                 Start now — it's free <ArrowRight className="h-4 w-4" />
               </button>
             </Link>
