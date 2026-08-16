@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Modal from "../ui/Modal";
@@ -17,22 +17,48 @@ const COLORS = [
   "#5f7da6", // slate blue
 ];
 
-const CreateBoardModal = ({ open, onClose }) => {
-  const { create } = useBoards();
+const emptyForm = () => ({ title: "", description: "", color: COLORS[0] });
+
+const CreateBoardModal = ({ open, onClose, board = null }) => {
+  const { create, update } = useBoards();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ title: "", description: "", color: COLORS[0] });
+  const [form, setForm] = useState(emptyForm);
   const [loading, setLoading] = useState(false);
+  const isEdit = Boolean(board);
+
+  useEffect(() => {
+    if (!open) return;
+    if (board) {
+      setForm({
+        title: board.title || "",
+        description: board.description || "",
+        color: board.color || COLORS[0],
+      });
+    } else {
+      setForm(emptyForm());
+    }
+  }, [open, board]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!form.title.trim()) return;
     setLoading(true);
     try {
-      const board = await create(form);
-      toast.success("Board created");
-      onClose();
-      setForm({ title: "", description: "", color: COLORS[0] });
-      navigate(`/board/${board.id}`);
+      if (isEdit) {
+        await update(board.id, {
+          title: form.title.trim(),
+          description: form.description.trim(),
+          color: form.color,
+        });
+        toast.success("Board updated");
+        onClose();
+      } else {
+        const created = await create(form);
+        toast.success("Board created");
+        onClose();
+        setForm(emptyForm());
+        navigate(`/board/${created.id}`);
+      }
     } catch (err) {
       toast.error(err.message);
     } finally {
@@ -41,12 +67,22 @@ const CreateBoardModal = ({ open, onClose }) => {
   };
 
   return (
-    <Modal open={open} onClose={onClose} title="Create a board" description="Boards start with Todo, In Progress, Review and Done.">
+    <Modal
+      open={open}
+      onClose={onClose}
+      title={isEdit ? "Edit board" : "Create a board"}
+      description={
+        isEdit
+          ? "Update the name, description, or accent color."
+          : "Boards start with Todo, In Progress, Review and Done."
+      }
+    >
       <form onSubmit={onSubmit} className="space-y-4">
         <Input
           label="Board name"
           placeholder="Product Roadmap"
           autoFocus
+          required
           value={form.title}
           onChange={(e) => setForm({ ...form, title: e.target.value })}
         />
@@ -76,7 +112,7 @@ const CreateBoardModal = ({ open, onClose }) => {
         </div>
         <div className="flex justify-end gap-2 pt-2">
           <Button type="button" variant="ghost" onClick={onClose}>Cancel</Button>
-          <Button type="submit" loading={loading}>Create board</Button>
+          <Button type="submit" loading={loading}>{isEdit ? "Save changes" : "Create board"}</Button>
         </div>
       </form>
     </Modal>

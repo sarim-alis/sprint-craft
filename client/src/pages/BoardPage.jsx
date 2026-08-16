@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import toast from "react-hot-toast";
-import { Sparkles, FileText, Users, Activity, Search, ChevronLeft } from "lucide-react";
+import { Sparkles, FileText, Users, Activity, Search, ChevronLeft, Pencil } from "lucide-react";
 import { useBoard } from "../hooks/useBoard";
 import { useLayout } from "../components/layout/AppLayout";
 import { aiApi } from "../lib/api";
@@ -22,7 +22,7 @@ import ActivityFeed from "../components/ActivityFeed";
 
 const BoardPage = () => {
   const { boardId } = useParams();
-  const { openCreateBoard } = useLayout();
+  const { openCreateBoard, openEditBoard } = useLayout();
   const b = useBoard(boardId);
 
   const [taskModal, setTaskModal] = useState({ open: false, task: null, columnId: null });
@@ -86,6 +86,9 @@ const BoardPage = () => {
           <AvatarStack users={b.presence} size="xs" max={3} />
         </div>
       )}
+      <Button size="sm" variant="ghost" onClick={() => openEditBoard?.(b.board)} title="Edit board">
+        <Pencil className="h-4 w-4" />
+      </Button>
       <Button size="sm" variant="ghost" onClick={() => setActivityOpen(true)} title="Activity">
         <Activity className="h-4 w-4" />
       </Button>
@@ -110,10 +113,16 @@ const BoardPage = () => {
               <ChevronLeft className="h-4 w-4" />
             </Link>
             {b.board ? (
-              <>
-                <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: b.board.color }} />
-                {b.board.title}
-              </>
+              <button
+                type="button"
+                onClick={() => openEditBoard?.(b.board)}
+                title="Edit board"
+                className="group flex min-w-0 items-center gap-2 rounded-lg text-left transition-colors hover:text-brand-600"
+              >
+                <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: b.board.color }} />
+                <span className="truncate">{b.board.title}</span>
+                <Pencil className="h-3.5 w-3.5 shrink-0 text-faint opacity-0 transition-opacity group-hover:opacity-100" />
+              </button>
             ) : (
               "Loading…"
             )}

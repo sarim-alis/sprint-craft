@@ -10,13 +10,15 @@ const LayoutContext = createContext(null);
 export const useLayout = () => useContext(LayoutContext);
 
 const LayoutInner = () => {
-  const [createOpen, setCreateOpen] = useState(false);
+  const [boardModal, setBoardModal] = useState({ open: false, board: null });
   const [commandOpen, setCommandOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(
     () => localStorage.getItem("sidebar-collapsed") === "true"
   );
 
-  const openCreateBoard = useCallback(() => setCreateOpen(true), []);
+  const openCreateBoard = useCallback(() => setBoardModal({ open: true, board: null }), []);
+  const openEditBoard = useCallback((board) => setBoardModal({ open: true, board }), []);
+  const closeBoardModal = useCallback(() => setBoardModal({ open: false, board: null }), []);
   const openCommand = useCallback(() => setCommandOpen(true), []);
   const toggleSidebar = useCallback(
     () =>
@@ -41,7 +43,7 @@ const LayoutInner = () => {
   }, []);
 
   return (
-    <LayoutContext.Provider value={{ openCreateBoard, openCommand }}>
+    <LayoutContext.Provider value={{ openCreateBoard, openEditBoard, openCommand }}>
       <div className="h-screen overflow-hidden">
         <Sidebar
           collapsed={collapsed}
@@ -58,13 +60,17 @@ const LayoutInner = () => {
         </main>
       </div>
 
-      <CreateBoardModal open={createOpen} onClose={() => setCreateOpen(false)} />
+      <CreateBoardModal
+        open={boardModal.open}
+        board={boardModal.board}
+        onClose={closeBoardModal}
+      />
       <CommandMenu
         open={commandOpen}
         onClose={() => setCommandOpen(false)}
         onCreateBoard={() => {
           setCommandOpen(false);
-          setCreateOpen(true);
+          setBoardModal({ open: true, board: null });
         }}
       />
     </LayoutContext.Provider>

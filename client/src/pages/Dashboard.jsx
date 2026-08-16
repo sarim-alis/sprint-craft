@@ -14,6 +14,7 @@ import {
   FolderKanban,
   Crown,
   Share2,
+  Pencil,
 } from "lucide-react";
 import { useBoards } from "../context/BoardsContext";
 import { useAuth } from "../context/AuthContext";
@@ -26,7 +27,7 @@ import { cn, relativeTime } from "../lib/utils";
 const Dashboard = () => {
   const { boards, loading } = useBoards();
   const { user } = useAuth();
-  const { openCreateBoard } = useLayout();
+  const { openCreateBoard, openEditBoard } = useLayout();
 
   const stats = useMemo(() => {
     const totalTasks = boards.reduce(
@@ -184,10 +185,23 @@ const Dashboard = () => {
                     ease: [0.16, 1, 0.3, 1],
                   }}
                 >
-                  <Link
-                    to={`/board/${b.id}`}
-                    className="group relative block h-full overflow-hidden rounded-3xl border border-line bg-surface p-5 shadow-[var(--shadow-card)] transition-shadow duration-300 hover:shadow-[var(--shadow-soft)]"
-                  >
+                  <div className="group relative h-full overflow-hidden rounded-3xl border border-line bg-surface shadow-[var(--shadow-card)] transition-shadow duration-300 hover:shadow-[var(--shadow-soft)]">
+                    <button
+                      type="button"
+                      title="Edit board"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        openEditBoard?.(b);
+                      }}
+                      className="absolute right-3 top-4 z-10 grid h-8 w-8 place-items-center rounded-full border border-line bg-surface text-faint opacity-0 shadow-[var(--shadow-card)] transition-all hover:text-ink group-hover:opacity-100"
+                    >
+                      <Pencil className="h-3.5 w-3.5" />
+                    </button>
+                    <Link
+                      to={`/board/${b.id}`}
+                      className="relative block h-full p-5"
+                    >
                     {/* color accent strip */}
                     <span
                       className="absolute inset-x-0 top-0 h-1"
@@ -203,7 +217,7 @@ const Dashboard = () => {
                       >
                         <LayoutGrid className="h-5 w-5" />
                       </div>
-                      <span className="flex items-center gap-1.5 text-faint transition-all duration-200 group-hover:text-brand-500">
+                      <span className="flex items-center gap-1.5 pr-8 text-faint transition-all duration-200 group-hover:text-brand-500">
                         {!b.is_owner && (
                           <span className="rounded-full bg-surface-2 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-muted">
                             Shared
@@ -230,7 +244,8 @@ const Dashboard = () => {
                         {relativeTime(b.updated_at)}
                       </span>
                     </div>
-                  </Link>
+                    </Link>
+                  </div>
                 </motion.div>
               ))}
             </div>

@@ -25,13 +25,19 @@ export const BoardsProvider = ({ children }) => {
     return board;
   }, []);
 
+  const update = useCallback(async (id, data) => {
+    const board = await boardApi.update(id, data);
+    setBoards((prev) => prev.map((b) => (b.id === board.id ? { ...b, ...board } : b)));
+    return board;
+  }, []);
+
   const remove = useCallback(async (id) => {
     await boardApi.remove(id);
     setBoards((prev) => prev.filter((b) => b.id !== id));
   }, []);
 
   return (
-    <BoardsContext.Provider value={{ boards, loading, refresh, create, remove }}>
+    <BoardsContext.Provider value={{ boards, loading, refresh, create, update, remove }}>
       {children}
     </BoardsContext.Provider>
   );
