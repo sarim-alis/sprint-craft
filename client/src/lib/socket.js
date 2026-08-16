@@ -11,7 +11,7 @@ export const getSocket = () => {
     socket = io(URL, {
       autoConnect: false,
       auth: { token: getToken() },
-      transports: ["websocket"],
+      transports: ["websocket", "polling"],
     });
   }
   return socket;
