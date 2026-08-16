@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ChevronDown, LogOut, Plus, Search, Command, Bell } from "lucide-react";
+import { ChevronDown, LogOut, Plus, Search, Command, Bell, Settings, HelpCircle } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { useLayout } from "./AppLayout";
 import Avatar from "../ui/Avatar";
@@ -65,11 +65,30 @@ const Topbar = ({ title, subtitle, actions, onCreateBoard }) => {
           </button>
 
           {menuOpen && (
-            <div className="card animate-in absolute right-0 mt-2 w-56 rounded-2xl p-1.5 shadow-[var(--shadow-lift)]">
+            <div className="card animate-in absolute right-0 mt-2 w-60 rounded-2xl p-1.5 shadow-[var(--shadow-lift)]">
               <div className="px-3 py-2">
                 <p className="truncate text-sm font-semibold text-ink">{user?.name}</p>
                 <p className="truncate text-xs text-faint">{user?.email}</p>
               </div>
+              <div className="my-1 border-t" />
+              <button
+                onClick={() => {
+                  setMenuOpen(false);
+                  navigate("/settings");
+                }}
+                className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm text-muted transition-colors hover:bg-surface-2 hover:text-ink"
+              >
+                <Settings className="h-4 w-4" /> Settings
+              </button>
+              <button
+                onClick={() => {
+                  setMenuOpen(false);
+                  openCommand?.();
+                }}
+                className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm text-muted transition-colors hover:bg-surface-2 hover:text-ink"
+              >
+                <HelpCircle className="h-4 w-4" /> Help & search
+              </button>
               <div className="my-1 border-t" />
               <button
                 onClick={() => {
