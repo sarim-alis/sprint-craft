@@ -108,7 +108,7 @@ const KanbanBoard = ({ columns, tasks, actions, onTaskClick, onAddTask, onAiGene
                   assignee_email: null,
                   assignee_avatar: null,
                 });
-                toast.success("Assignee removed");
+                toast.success(`${(task.assignee_name || "Assignee").trim().split(/\s+/)[0]} removed`);
               } catch {
                 /* error already toasted */
               }

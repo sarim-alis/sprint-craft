@@ -8,6 +8,7 @@ import { useWorkspace } from "../hooks/useWorkspace";
 import Topbar from "../components/layout/Topbar";
 import Button from "../components/ui/Button";
 import Avatar from "../components/ui/Avatar";
+import ConfirmDialog from "../components/ui/ConfirmDialog";
 import { cn } from "../lib/utils";
 
 const Switch = ({ checked, onChange }) => (
@@ -54,6 +55,7 @@ const Settings = () => {
   const [reduceMotion, setReduceMotion] = useState(
     () => localStorage.getItem("pref-reduced-motion") === "true"
   );
+  const [logoutOpen, setLogoutOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.dataset.reduceMotion = reduceMotion ? "true" : "false";
@@ -145,12 +147,23 @@ const Settings = () => {
 
           {/* Account */}
           <Card title="Account" description="Manage your session.">
-            <Button variant="danger" onClick={() => { logout(); navigate("/login"); }}>
+            <Button variant="danger" onClick={() => setLogoutOpen(true)}>
               <LogOut className="h-4 w-4" /> Sign out
             </Button>
           </Card>
         </div>
       </div>
+      <ConfirmDialog
+        open={logoutOpen}
+        onClose={() => setLogoutOpen(false)}
+        onConfirm={() => {
+          logout();
+          navigate("/login");
+        }}
+        title="Are you sure you want to logout?"
+        description="You’ll need to sign in again to get back to your boards."
+        confirmLabel="Log out"
+      />
     </>
   );
 };

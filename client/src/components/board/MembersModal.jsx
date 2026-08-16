@@ -30,11 +30,11 @@ const MembersModal = ({ open, onClose, boardId, members, setMembers, canManage, 
     }
   };
 
-  const remove = async (userId) => {
+  const remove = async (member) => {
     try {
-      await boardApi.removeMember(boardId, userId);
-      setMembers((prev) => prev.filter((m) => m.id !== userId));
-      toast.success("Member removed");
+      await boardApi.removeMember(boardId, member.id);
+      setMembers((prev) => prev.filter((m) => m.id !== member.id));
+      toast.success(`${(member.name || "Member").trim().split(/\s+/)[0]} removed`);
     } catch (err) {
       toast.error(err.message);
     }
@@ -61,7 +61,7 @@ const MembersModal = ({ open, onClose, boardId, members, setMembers, canManage, 
             </div>
             <span className="rounded-full bg-surface-2 px-2.5 py-1 text-[11px] font-medium capitalize text-muted">{m.role}</span>
             {canManage && m.id !== ownerId && (
-              <button onClick={() => remove(m.id)} className="rounded-full p-1.5 text-faint transition-colors hover:bg-elevated hover:text-priority-urgent">
+              <button onClick={() => remove(m)} className="rounded-full p-1.5 text-faint transition-colors hover:bg-elevated hover:text-priority-urgent">
                 <X className="h-4 w-4" />
               </button>
             )}

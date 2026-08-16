@@ -6,12 +6,14 @@ import { useLayout } from "./AppLayout";
 import Avatar from "../ui/Avatar";
 import Button from "../ui/Button";
 import ThemeToggle from "../ui/ThemeToggle";
+import ConfirmDialog from "../ui/ConfirmDialog";
 
 const Topbar = ({ title, subtitle, actions, onCreateBoard }) => {
   const { user, logout } = useAuth();
   const { openCommand } = useLayout() || {};
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [logoutOpen, setLogoutOpen] = useState(false);
   const ref = useRef(null);
 
   useEffect(() => {
@@ -95,8 +97,8 @@ const Topbar = ({ title, subtitle, actions, onCreateBoard }) => {
               <div className="my-1 border-t" />
               <button
                 onClick={() => {
-                  logout();
-                  navigate("/login");
+                  setMenuOpen(false);
+                  setLogoutOpen(true);
                 }}
                 className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm text-priority-urgent transition-colors hover:bg-surface-2"
               >
@@ -106,6 +108,17 @@ const Topbar = ({ title, subtitle, actions, onCreateBoard }) => {
           )}
         </div>
       </div>
+      <ConfirmDialog
+        open={logoutOpen}
+        onClose={() => setLogoutOpen(false)}
+        onConfirm={() => {
+          logout();
+          navigate("/login");
+        }}
+        title="Are you sure you want to logout?"
+        description="You’ll need to sign in again to get back to your boards."
+        confirmLabel="Log out"
+      />
     </header>
   );
 };
