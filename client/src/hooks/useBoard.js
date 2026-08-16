@@ -121,11 +121,20 @@ export const useBoard = (boardId) => {
     async (taskId, data) => {
       const prev = tasks.find((t) => t.id === taskId);
       const next = { ...prev, ...data };
-      if (Object.prototype.hasOwnProperty.call(data, "assignee_id") && !data.assignee_id) {
-        next.assignee_id = null;
-        next.assignee_name = null;
-        next.assignee_email = null;
-        next.assignee_avatar = null;
+      if (Object.prototype.hasOwnProperty.call(data, "assignee_id")) {
+        if (!data.assignee_id) {
+          next.assignee_id = null;
+          next.assignee_name = null;
+          next.assignee_email = null;
+          next.assignee_avatar = null;
+        } else if (!data.assignee_name) {
+          const member = members.find((m) => m.id === data.assignee_id);
+          if (member) {
+            next.assignee_name = member.name;
+            next.assignee_email = member.email;
+            next.assignee_avatar = member.avatar_url;
+          }
+        }
       }
       upsertTask(next); // optimistic
       try {
@@ -138,7 +147,7 @@ export const useBoard = (boardId) => {
         throw err;
       }
     },
-    [boardId, tasks, upsertTask]
+    [boardId, tasks, members, upsertTask]
   );
 
   const deleteTask = useCallback(

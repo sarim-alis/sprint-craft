@@ -28,10 +28,11 @@ export const columnAccent = (index = 0) => {
   };
 };
 
-export const initials = (name = "") =>
-  name
+export const initials = (name) =>
+  String(name || "")
     .trim()
     .split(/\s+/)
+    .filter(Boolean)
     .slice(0, 2)
     .map((w) => w[0]?.toUpperCase())
     .join("") || "?";
