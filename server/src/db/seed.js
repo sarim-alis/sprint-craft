@@ -5,11 +5,10 @@ const PASSWORD = "Test@1234";
 const DAY = 86400000;
 const COLUMNS = ["Todo", "In Progress", "Review", "Done"];
 const USERS = [
-    { key: "alex", name: "Alex Rivera", email: "alex@spacecraft.com" },
+    { key: "sarim", name: "Sarim Ali", email: "sarim@spacecraft.com" },
     { key: "joe",  name: "Joe Doe",     email: "joe@spacecraft.com" },
     { key: "jane", name: "Jane Doe",    email: "jane@spacecraft.com" },
     { key: "john", name: "John Doe",    email: "john@spacecraft.com" },
-    { key: "jane", name: "Jane Doe",    email: "jane@spacecraft.com" },
     { key: "nina", name: "Nina Doe",    email: "nina@spacecraft.com" },
 ];
 
@@ -18,8 +17,8 @@ const BOARDS = [
         title: "Spacecraft",
         description: "Spacecraft is a platform for creating and managing your projects.",
         color: "#2f8159",
-        owner: "alex",
-        members: ["alex", "joe", "jane", "john", "nina"],
+        owner: "sarim",
+        members: ["sarim", "joe", "jane", "john", "nina"],
         updatedDaysAgo: 0.3,
         tasks: [
             "Define Q3 OKRs", "Prioritize tasks", "Assign tasks", "Review tasks", "Complete tasks",
@@ -151,7 +150,7 @@ const run = async () => {
             const boardId = br[0].id;
 
             let memberKeys = [b.owner, ...b.members];
-            if (!memberKeys.includes("alex")) memberKeys.push("alex");
+            if (!memberKeys.includes("sarim")) memberKeys.push("sarim");
             memberKeys = [...new Set(memberKeys)];
 
             for (let mi=0; mi<memberKeys.length; mi++) {
@@ -173,8 +172,8 @@ const run = async () => {
                 colIds.push(cr[0].id);
             }
 
-            const asssignPool = ["alex", "alex", ...memberKeys];
-
+            const asssignPool = ["sarim", "sarim", ...memberKeys];
+                    
             for (let i=0; i<b.tasks.length; i++) {
                 const colIdx = COL_CYCLE[i % COL_CYCLE.length];
                 const priority = PRIO_CYCLE[(i + b.title.length) % PRIO_CYCLE.length];
@@ -184,8 +183,8 @@ const run = async () => {
                 const assigneeId = assigneeKey ? uid[assigneeKey] : null;
 
                 await c.query(
-                    `INSERT INTO tasks 
-                      (board_id, column_id, title, desciption, priority, due_date, assignee_id, position, created_at, updated_at)
+                    `INSERT INTO tasks
+                      (board_id, column_id, title, description, priority, due_date, assignee_id, position, created_by, created_at, updated_at)
                     VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, now() - interval '20 days', $10)`,
                     [
                         boardId,
@@ -219,10 +218,18 @@ const run = async () => {
         }
 
         return taskTotal;
-    }).then((taskTotal) => {
-        console.log("Spacecraft seeded. ⭐");
-        console.log(` Users: ${USERS.length}  - Boards: ${BOARDS.length}  - Tasks: ${taskTotal}`);
-        console.log(" Login: alex@spacecraft.com / Test@1234");
-        console.log(" Teammates share same password 🚀");
     });
 };
+
+run()
+    .then((taskTotal) => {
+        console.log("Spacecraft seeded. ⭐");
+        console.log(` Users: ${USERS.length}  - Boards: ${BOARDS.length}  - Tasks: ${taskTotal}`);
+        console.log(" Login: sarim@spacecraft.com / Test@1234");
+        console.log(" Teammates share same password 🚀");
+    })
+    .catch((err) => {
+        console.error("Seed failed:", err.message);
+        process.exitCode = 1;
+    })
+    .finally(() => pool.end());

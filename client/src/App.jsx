@@ -57,7 +57,7 @@ const App = () => (
       </Routes>
 
       <Toaster
-        position="bottom-right"
+        position="top-center"
         toastOptions={{
           style: {
             background: "#ffffff",
