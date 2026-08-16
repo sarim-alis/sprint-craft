@@ -14,10 +14,12 @@ const { initSocket } = require("./src/socket");
 
 const app = express();
 
+app.set("trust proxy", 1);
 app.use(
     cors({
-        origin: process.env.CLIENT_URL || "http://localhost:5173",
-        credentials: true
+        origin: "*",
+        methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization"],
     })
 );
 app.use(express.json({ limit: "1mb" }));

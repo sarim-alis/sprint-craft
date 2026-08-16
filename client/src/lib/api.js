@@ -20,7 +20,11 @@ api.interceptors.response.use(
   (res) => res,
   (error) => {
     const message =
-      error.response?.data?.error || error.message || "Something went wrong";
+      error.response?.data?.error ||
+      (error.code === "ERR_NETWORK" || error.message === "Network Error"
+        ? "Can't reach the server. If this is production, check VITE_API_URL and that Render is awake."
+        : error.message) ||
+      "Something went wrong";
     if (error.response?.status === 401 && getToken()) {
       clearToken();
       if (!location.pathname.startsWith("/login")) location.assign("/login");
