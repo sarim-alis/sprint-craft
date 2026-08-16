@@ -34,6 +34,7 @@ const MembersModal = ({ open, onClose, boardId, members, setMembers, canManage, 
     try {
       await boardApi.removeMember(boardId, userId);
       setMembers((prev) => prev.filter((m) => m.id !== userId));
+      toast.success("Member removed");
     } catch (err) {
       toast.error(err.message);
     }
