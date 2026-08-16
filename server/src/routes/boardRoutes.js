@@ -20,7 +20,7 @@ router.delete("/:boardId", requireBoardAccess, board.deleteBoard);
 router.get("/:boardId/activity", requireBoardAccess, board.getActivity);
 
 router.post("/:boardId/members", requireBoardAccess, board.addMember);
-router.delete("/:boardId/members", requireBoardAccess, board.removeMember);
+router.delete("/:boardId/members/:userId", requireBoardAccess, board.removeMember);
 
 router.post("/:boardId/columns", requireBoardAccess, column.createColumn);
 router.patch("/:boardId/columns/:columnId", requireBoardAccess, column.updateColumn);

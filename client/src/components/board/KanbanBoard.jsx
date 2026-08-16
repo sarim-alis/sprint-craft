@@ -99,6 +99,14 @@ const KanbanBoard = ({ columns, tasks, actions, onTaskClick, onAddTask, onAiGene
             onAiGenerate={onAiGenerate}
             onRename={actions.renameColumn}
             onDelete={actions.deleteColumn}
+            onUnassign={(task) =>
+              actions.updateTask(task.id, {
+                assignee_id: null,
+                assignee_name: null,
+                assignee_email: null,
+                assignee_avatar: null,
+              })
+            }
           />
         ))}
 

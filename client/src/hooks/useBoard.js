@@ -120,7 +120,14 @@ export const useBoard = (boardId) => {
   const updateTask = useCallback(
     async (taskId, data) => {
       const prev = tasks.find((t) => t.id === taskId);
-      upsertTask({ ...prev, ...data }); // optimistic
+      const next = { ...prev, ...data };
+      if (Object.prototype.hasOwnProperty.call(data, "assignee_id") && !data.assignee_id) {
+        next.assignee_id = null;
+        next.assignee_name = null;
+        next.assignee_email = null;
+        next.assignee_avatar = null;
+      }
+      upsertTask(next); // optimistic
       try {
         const task = await taskApi.update(boardId, taskId, data);
         upsertTask(task);

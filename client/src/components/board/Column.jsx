@@ -6,7 +6,7 @@ import TaskCard from "./TaskCard";
 import ConfirmDialog from "../ui/ConfirmDialog";
 import { cn, columnAccent } from "../../lib/utils";
 
-const Column = ({ column, tasks, index = 0, onTaskClick, onAddTask, onRename, onDelete, onAiGenerate }) => {
+const Column = ({ column, tasks, index = 0, onTaskClick, onAddTask, onRename, onDelete, onAiGenerate, onUnassign }) => {
   const { setNodeRef, isOver } = useDroppable({ id: column.id, data: { type: "column", column } });
   const accent = columnAccent(index);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -95,7 +95,7 @@ const Column = ({ column, tasks, index = 0, onTaskClick, onAddTask, onRename, on
       <div ref={setNodeRef} className="flex flex-1 flex-col gap-2.5 overflow-y-auto px-0.5 pb-1 no-scrollbar">
         <SortableContext items={tasks.map((t) => t.id)} strategy={verticalListSortingStrategy}>
           {tasks.map((task) => (
-            <TaskCard key={task.id} task={task} onClick={onTaskClick} />
+            <TaskCard key={task.id} task={task} onClick={onTaskClick} onUnassign={onUnassign} />
           ))}
         </SortableContext>
 

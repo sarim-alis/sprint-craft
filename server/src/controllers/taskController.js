@@ -106,13 +106,16 @@ const updateTask = asyncHandler(async (req, res) => {
     if (priority !== undefined && !PRIORITIES.includes(priority))
         throw ApiError.badRequest("Invalid priority");
 
+    const clearAssignee = Object.prototype.hasOwnProperty.call(req.body, "assignee_id");
+    const nextAssignee = assignee_id ? assignee_id : null;
+
     const { rows } = await query(
         `UPDATE tasks
              SET title       = COALESCE($3, title),
                  description = COALESCE($4, description),
                  priority    = COALESCE($5, priority),
                  due_date    = COALESCE($6, due_date),
-                 assignee_id = $7,
+                 assignee_id = CASE WHEN $8 THEN $7::uuid ELSE assignee_id END,
                  updated_at = now()
         WHERE id = $1 AND board_id = $2
         RETURNING id`,
@@ -123,7 +126,8 @@ const updateTask = asyncHandler(async (req, res) => {
             description || null,
             priority || null,
             due_date || null,
-            assignee_id === undefined ? null : assignee_id,
+            nextAssignee,
+            clearAssignee,
         ]
     );
     if (!rows.length) throw ApiError.notFound("Task not found");

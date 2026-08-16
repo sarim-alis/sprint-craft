@@ -103,12 +103,23 @@ const TaskModal = ({ open, onClose, task, defaultColumnId, columns, members, act
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <Select label="Assignee" value={form.assignee_id} onChange={set("assignee_id")}>
-            <option value="">Unassigned</option>
-            {members.map((m) => (
-              <option key={m.id} value={m.id}>{m.name}</option>
-            ))}
-          </Select>
+          <div className="space-y-1.5">
+            <Select label="Assignee" value={form.assignee_id} onChange={set("assignee_id")}>
+              <option value="">Unassigned</option>
+              {members.map((m) => (
+                <option key={m.id} value={m.id}>{m.name}</option>
+              ))}
+            </Select>
+            {form.assignee_id && (
+              <button
+                type="button"
+                onClick={() => setForm((f) => ({ ...f, assignee_id: "" }))}
+                className="text-[11px] font-medium text-faint transition-colors hover:text-ink"
+              >
+                Remove assignee
+              </button>
+            )}
+          </div>
           {!isEdit && (
             <Select label="Column" value={form.column_id} onChange={set("column_id")}>
               {columns.map((c) => (

@@ -1,11 +1,11 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Calendar } from "lucide-react";
+import { Calendar, X } from "lucide-react";
 import Avatar from "../ui/Avatar";
 import { PriorityTag } from "../ui/Badge";
 import { cn, formatDueDate } from "../../lib/utils";
 
-const TaskCard = ({ task, onClick, overlay = false }) => {
+const TaskCard = ({ task, onClick, onUnassign, overlay = false }) => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: task.id,
     data: { type: "task", task },
@@ -41,9 +41,23 @@ const TaskCard = ({ task, onClick, overlay = false }) => {
 
       <div className="mt-3.5 flex items-center justify-between border-t border-line/70 pt-3">
         {task.assignee_id ? (
-          <div className="flex items-center gap-1.5">
+          <div className="flex min-w-0 items-center gap-1.5">
             <Avatar name={task.assignee_name} id={task.assignee_id} src={task.assignee_avatar} size="xs" />
             <span className="max-w-[7rem] truncate text-[11px] text-muted">{task.assignee_name}</span>
+            {onUnassign && (
+              <button
+                type="button"
+                title="Remove assignee"
+                onPointerDown={(e) => e.stopPropagation()}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onUnassign(task);
+                }}
+                className="grid h-5 w-5 shrink-0 place-items-center rounded-full text-faint opacity-0 transition-opacity hover:bg-surface-2 hover:text-ink group-hover:opacity-100"
+              >
+                <X className="h-3 w-3" />
+              </button>
+            )}
           </div>
         ) : (
           <span className="text-[11px] text-faint">Unassigned</span>
