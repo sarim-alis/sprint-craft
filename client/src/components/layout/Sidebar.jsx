@@ -65,7 +65,7 @@ const Sidebar = ({ collapsed, onToggle, onCreateBoard }) => {
         </div>
         {!collapsed && (
           <span className="flex-1 truncate font-display text-[17px] font-bold tracking-tight text-ink">
-            Spacecraft
+            Sprint Craft
           </span>
         )}
         {!collapsed && (

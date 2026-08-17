@@ -47,7 +47,7 @@ const Login = () => {
               <Zap className="h-5 w-5 fill-white text-white" />
             </div>
             <span className="font-display text-lg font-bold tracking-tight">
-              Spacecraft
+              Sprint Craft
             </span>
           </Link>
 
@@ -113,7 +113,7 @@ const Login = () => {
       </div>
 
       <AuthAside
-        title="Welcome back to Spacecraft"
+        title="Welcome back to Sprint Craft"
         subtitle="Log in and pick up right where you and your team left off."
       />
     </div>
